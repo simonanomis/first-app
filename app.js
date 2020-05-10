@@ -1,11 +1,19 @@
-const log = require('./logger');
+const http = require('http');
 
-function sayHello(name) {
-    console.log('Hello ' + name + ' from your first NodeJS app');
-}
+const server = http.createServer((request, response) => {
+    if (request.url === '/') {
+        response.write('Hello World');
+        response.end(); 
+    }
+    if (request.url === '/api/courses') {
+        response.write(JSON.stringify([1, 2, 3, 4, 5]));
+        response.end(); 
+    }
+});
 
-//sayHello('Simona');
-//console.log(module);
+server.on('connection', socket => {
+    console.log('New connection...')
+});
+server.listen(3000);
 
-log('message');
-
+console.log('Listening on port 3000...');
